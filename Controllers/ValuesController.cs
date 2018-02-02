@@ -1,0 +1,70 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using System.IO;
+using test2.Models;
+using Newtonsoft.Json;
+
+namespace dogapi_ZilverCoder.Controllers
+{
+    //[Route("dogs/[controller]")]
+    [Route("dogs/")]
+    public class ValuesController : Controller
+    {
+        // GET api/values
+        [HttpGet]
+        public IEnumerable<string> Get()
+        {
+            var files = System.IO.Directory.GetFiles("DogFiles","*.json");
+            List<Dog> dogs = new List<Dog>(); 
+            foreach(var file in files){
+                dogs.Add(JsonConvert.DeserializeObject<Dog>
+                (System.IO.File.ReadAllText(file)));
+            }
+            return dogs.Select(d => d.BreedName).ToArray();
+        }
+
+        // GET api/values/5
+        [HttpGet("{id}")]
+        public string Get(string id)
+        {
+            string success = "Something went wrong";
+            var files = System.IO.Directory.GetFiles("DogFiles","*.json");
+            List<Dog> dogs = new List<Dog>(); 
+            foreach(var file in files){
+                dogs.Add(JsonConvert.DeserializeObject<Dog>
+                (System.IO.File.ReadAllText(file)));
+            }
+            foreach(var dog in dogs){
+                if(dog.BreedName == id){
+                    success = "The dog was found";
+                }
+                else{
+                    success = "The dog was not found!";
+                }
+            }
+            //return dogs[0].BreedName.ToString();
+            return success;
+        }
+
+        // POST api/values
+        [HttpPost]
+        public void Post([FromBody]string value)
+        {
+        }
+
+        // PUT api/values/5
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody]string value)
+        {
+        }
+
+        // DELETE api/values/5
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+        }
+    }
+}
