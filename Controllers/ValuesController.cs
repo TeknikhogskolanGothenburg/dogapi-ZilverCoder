@@ -56,8 +56,11 @@ namespace dogapi_ZilverCoder.Controllers
                 dogs.Add(JsonConvert.DeserializeObject<Dog>
                 (System.IO.File.ReadAllText(file)));
             }
-            test2.Models.Dog temp = new test2.Models.Dog();
-            temp.BreedName = value;
+            test2.Models.Dog temp = new test2.Models.Dog{
+                BreedName = value,
+                Description = "Awesome Dog",
+                WikipediaUrl = "http://wikipedia.com/"
+            };
             dogs.Add(temp);
         }
 
