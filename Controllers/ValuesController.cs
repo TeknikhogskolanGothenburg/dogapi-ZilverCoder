@@ -36,12 +36,11 @@ namespace dogapi_ZilverCoder.Controllers
                 dogs.Add(JsonConvert.DeserializeObject<Dog>
                 (System.IO.File.ReadAllText(file)));
             }
-            foreach(var dog in dogs){
-                if(dog.BreedName == id){
-                    success = "The dog was found";
-                }
-                else{
-                    success = "The dog was not found!";
+            for(int i=0; i < dogs.Count; i++)
+            {
+                if(dogs[i].BreedName == id)
+                {
+                    success = "Found him!";
                 }
             }
             //return dogs[0].BreedName.ToString();
